@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danholmen Badstuer - Widget Demo</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      margin-bottom: 8px;
+    }
+    .demo-box {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    pre {
+      background: #1a1a1a;
+      color: #f0f0f0;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Danholmen Badstuer - Widget Demo</h1>
+  <p>Dette er en demonstrasjon av embed-widgeten. Lim inn koden nedenfor på din nettside.</p>
+
+  <div class="demo-box">
+    <h3>Alle badstuer</h3>
+    <pre><code>&lt;script src="https://din-url.com/widget.js"&gt;&lt;/script&gt;</code></pre>
+    <script src="./widget.js"></script>
+  </div>
+
+  <div class="demo-box">
+    <h3>Én badstue (Arås)</h3>
+    <pre><code>&lt;script src="https://din-url.com/widget.js" data-sauna="araas-badstue"&gt;&lt;/script&gt;</code></pre>
+    <script src="./widget.js" data-sauna="araas-badstue"></script>
+  </div>
+</body>
+</html>

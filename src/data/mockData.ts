@@ -1,0 +1,96 @@
+import type { Sauna, Admin, Booking, Member, DiscountCode, Campaign, SystemConfig } from "./types";
+
+export const mockSaunas: Sauna[] = [
+  {
+    id: "sauna-1",
+    name: "Arås Båthavn",
+    slug: "araas-badstue",
+    location: "Tønsberg",
+    description: "Badstue ved Arås Båthavn med flott utsikt over vannet. Perfekt for båtfolk og lokalbefolkning.",
+    image: "",
+    images: [],
+    capacity: 8,
+    pricePerHour: 349,
+    sharedPrice: 99,
+    maxCapacity: 8,
+    bookingModes: ["private", "shared"],
+    offersMembership: true,
+    offersVelDiscount: true,
+    velDiscountRate: 0.25,
+    localAssociationName: "Arås Båthavn",
+    basicPrice: 349,
+    premiumPrice: 349,
+    platinumPrice: 349,
+    openingHours: { open: "06:00", close: "22:00" },
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "sauna-2",
+    name: "Ormelet Vel",
+    slug: "ormelet-vel",
+    location: "Tønsberg",
+    description: "Velbadstue med tradisjonell atmosfære. Tilgjengelig for vel-medlemmer med spesialrabatt.",
+    image: "",
+    images: [],
+    capacity: 8,
+    pricePerHour: 349,
+    sharedPrice: 99,
+    maxCapacity: 8,
+    bookingModes: ["private", "shared"],
+    offersMembership: true,
+    offersVelDiscount: true,
+    velDiscountRate: 0.5,
+    localAssociationName: "Ormelet Vel",
+    basicPrice: 349,
+    premiumPrice: 349,
+    platinumPrice: 349,
+    openingHours: { open: "06:00", close: "22:00" },
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "sauna-3",
+    name: "Medø Slipp",
+    slug: "medoe-badstue",
+    location: "Tønsberg",
+    description: "Badstue ved Medø Slipp med moderne fasiliteter. ØBV-medlemmer får 50% rabatt.",
+    image: "",
+    images: [],
+    capacity: 8,
+    pricePerHour: 349,
+    sharedPrice: 99,
+    maxCapacity: 8,
+    bookingModes: ["private", "shared"],
+    offersMembership: true,
+    offersVelDiscount: true,
+    velDiscountRate: 0.5,
+    localAssociationName: "Medø Slipp",
+    basicPrice: 349,
+    premiumPrice: 349,
+    platinumPrice: 349,
+    openingHours: { open: "06:00", close: "22:00" },
+    createdAt: new Date().toISOString(),
+  },
+];
+
+export const mockAdmin: Admin = {
+  id: "admin-1",
+  name: "Kenneth",
+  email: "kenkri3@gmail.com",
+  password: "EmmabirkW92",
+  role: "superadmin",
+  createdAt: new Date().toISOString(),
+};
+
+export const defaultSystemConfig: SystemConfig = {
+  membershipTiers: ["danholmen"],
+  defaultMembershipPrice: 349,
+  velDiscountEnabled: true,
+  stripeEnabled: false,
+  bookingLeadTimeMinutes: 15,
+  cancellationPolicyHours: 24,
+};
+
+export const initialBookings: Booking[] = [];
+export const initialMembers: Member[] = [];
+export const initialDiscountCodes: DiscountCode[] = [];
+export const initialCampaigns: Campaign[] = [];
