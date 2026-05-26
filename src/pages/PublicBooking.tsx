@@ -6,12 +6,8 @@ import {
   ArrowRight,
   Users,
   Clock,
-  CheckCircle2,
-  AlertCircle,
-  XCircle,
-  MinusCircle,
 } from "lucide-react";
-import { format, isBefore, parseISO, startOfDay } from "date-fns";
+import { format, isBefore, parseISO } from "date-fns";
 import { nb } from "date-fns/locale";
 import { PublicHeader } from "@/components/PublicHeader";
 import { PublicFooter } from "@/components/PublicFooter";
@@ -56,7 +52,6 @@ function getSlotStatus(
   bookingsForSaunaToday: Booking[],
   now: Date
 ): SlotStatus {
-  const slotHour = parseInt(slotTime.split(":")[0], 10);
   const slotDate = parseISO(`${todayStr}T${slotTime}:00`);
 
   // Past time?

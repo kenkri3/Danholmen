@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Shield,
@@ -142,16 +142,14 @@ const emptyAdmin: Omit<AdminUser, "id"> = {
 
 export default function Admins() {
   const currentAdmin = getCurrentAdmin();
-  const [admins, setAdmins] = useState<AdminUser[]>([]);
-  const [saunas, setSaunas] = useState<ReturnType<typeof getSaunas>>([]);
+  const [admins, setAdmins] = useState<AdminUser[]>(() => getAdmins());
+  const [saunas, setSaunas] = useState<ReturnType<typeof getSaunas>>(() =>
+    getSaunas()
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAdmin, setEditingAdmin] = useState<AdminUser | null>(null);
   const [form, setForm] = useState<Omit<AdminUser, "id">>({ ...emptyAdmin });
   const [errors, setErrors] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    refreshData();
-  }, []);
 
   function refreshData() {
     setAdmins(getAdmins());

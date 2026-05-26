@@ -29,7 +29,7 @@ import {
   Area,
 } from "recharts";
 import { jsPDF } from "jspdf";
-// @ts-ignore
+// @ts-ignore autoTable is not recognized by ts but is available
 import autoTable from "jspdf-autotable";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { DataTable } from "@/components/ui/DataTable";

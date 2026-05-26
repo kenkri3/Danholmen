@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -610,11 +610,11 @@ export default function Campaigns() {
     }
   };
 
-  const handleToggleStatus = (campaign: Campaign) => {
+  const handleToggleStatus = useCallback((campaign: Campaign) => {
     const updated = { ...campaign, isActive: !campaign.isActive };
     saveCampaign(updated);
     refresh();
-  };
+  }, []);
 
   const handleCopyCode = async (code: string) => {
     try {
@@ -654,13 +654,13 @@ export default function Campaigns() {
     setModalOpen(true);
   };
 
-  const getSaunaNames = (campaign: Campaign) => {
+  const getSaunaNames = useCallback((campaign: Campaign) => {
     if (campaign.appliesToAllSaunas) return "Alle";
     return campaign.saunaIds
       .map((id) => saunas.find((s) => s.id === id)?.name)
       .filter(Boolean)
       .join(", ") || "Ingen";
-  };
+  }, [saunas]);
 
   // DataTable columns
   const columns = useMemo(
@@ -827,7 +827,7 @@ export default function Campaigns() {
         ),
       },
     ],
-    [copiedCode]
+    [copiedCode, getSaunaNames, handleToggleStatus]
   );
 
   const templates = getTemplates();

@@ -10,16 +10,15 @@ export default function BookingConfirmed() {
   const [booking, setBooking] = useState<Booking | null>(null);
 
   useEffect(() => {
-    // Check for session_id in URL (from Stripe redirect)
-    const urlParams = new URLSearchParams(window.location.search);
-    const sessionId = urlParams.get("session_id");
-
     // Get pending booking ID from localStorage
     const pendingId = localStorage.getItem("danholmen_pending_booking_id");
-
     if (pendingId) {
       const found = getBookingById(pendingId);
       if (found) {
+        // Check for session_id in URL (from Stripe redirect)
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get("session_id");
+
         // Update booking to confirmed
         found.status = "confirmed";
         found.paymentStatus = found.totalPrice > 0 ? "paid" : "free";
@@ -35,10 +34,11 @@ export default function BookingConfirmed() {
         }
         setBooking(found);
       }
-      // Clear pending booking from localStorage
-      localStorage.removeItem("danholmen_pending_booking_id");
-      localStorage.removeItem("danholmen_payment_deadline");
     }
+
+    // Clear pending booking from localStorage
+    localStorage.removeItem("danholmen_pending_booking_id");
+    localStorage.removeItem("danholmen_payment_deadline");
 
     // Clean up URL
     if (window.location.search) {

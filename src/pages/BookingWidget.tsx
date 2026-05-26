@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
-import { getSaunas, getBookingsBySaunaAndDate, saveBooking, deleteBooking, getPendingPaymentBookings, getBookingById, checkBookingConflict, isBookingTypeAllowed } from "@/data/store";
+import { getSaunas, getBookingsBySaunaAndDate, saveBooking, deleteBooking, getPendingPaymentBookings, getBookingById } from "@/data/store";
 import type { Sauna, Booking, BookingType } from "@/data/types";
 import {
   isStripeConfigured,
@@ -91,10 +91,6 @@ function generateTimeSlots(sauna: Sauna, dateStr: string): TimeSlot[] {
       });
       return;
     }
-
-    // Use bookingType from state — default to checking "private"
-    const checkType = "private";
-    const isBlocked = checkBookingConflict(sauna, dateStr, time, checkType, bookings);
 
     // Determine display status
     const slotBookings = bookings.filter(

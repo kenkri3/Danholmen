@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -7,12 +7,10 @@ import {
   Clock,
   Users,
   Lock,
-  Filter,
   Search,
   X,
 } from "lucide-react";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import {
@@ -28,7 +26,7 @@ import {
   getFilteredSaunasForAdmin,
   getFilteredBookingsForAdmin,
 } from "@/data/store";
-import type { Booking, Sauna } from "@/data/types";
+import type { Booking } from "@/data/types";
 
 type FilterStatus = "all" | "confirmed" | "pending" | "cancelled";
 type FilterType = "all" | "private" | "felles" | "internal";
@@ -87,23 +85,18 @@ export default function BookingCalendar() {
   const [calYear, setCalYear] = useState(today.getFullYear());
   const [calMonth, setCalMonth] = useState(today.getMonth());
 
-  // Use first sauna as default if "all" and saunas available
-  useEffect(() => {
-    if (selectedSaunaId === "all" && saunas.length > 0) {
-      // keep "all"
-    } else if (
-      selectedSaunaId !== "all" &&
-      !saunas.find((s) => s.id === selectedSaunaId)
-    ) {
-      setSelectedSaunaId("all");
-    }
+  // If selectedSaunaId is no longer in the filtered list, fallback to "all"
+  const activeSaunaId = useMemo(() => {
+    if (selectedSaunaId === "all") return "all";
+    if (saunas.find((s) => s.id === selectedSaunaId)) return selectedSaunaId;
+    return "all";
   }, [saunas, selectedSaunaId]);
 
   const filteredBookings = useMemo(() => {
     let result = allBookings;
 
-    if (selectedSaunaId !== "all") {
-      result = result.filter((b) => b.saunaId === selectedSaunaId);
+    if (activeSaunaId !== "all") {
+      result = result.filter((b) => b.saunaId === activeSaunaId);
     }
     if (filterStatus !== "all") {
       result = result.filter((b) => b.status === filterStatus);
@@ -121,7 +114,7 @@ export default function BookingCalendar() {
       );
     }
     return result;
-  }, [allBookings, selectedSaunaId, filterStatus, filterType, searchQuery]);
+  }, [allBookings, activeSaunaId, filterStatus, filterType, searchQuery]);
 
   const calendarDays = useMemo(
     () => getCalendarDays(calYear, calMonth),
@@ -170,7 +163,7 @@ export default function BookingCalendar() {
         <button
           onClick={() => setSelectedSaunaId("all")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-            selectedSaunaId === "all"
+            activeSaunaId === "all"
               ? "bg-teal text-white shadow-md"
               : "bg-white border border-[#DDD6CC] text-text-secondary hover:border-teal/30"
           }`}
@@ -182,7 +175,7 @@ export default function BookingCalendar() {
             key={sauna.id}
             onClick={() => setSelectedSaunaId(sauna.id)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              selectedSaunaId === sauna.id
+              activeSaunaId === sauna.id
                 ? "bg-teal text-white shadow-md"
                 : "bg-white border border-[#DDD6CC] text-text-secondary hover:border-teal/30"
             }`}

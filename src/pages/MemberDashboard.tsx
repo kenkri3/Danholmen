@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -55,20 +55,12 @@ function getDiscountedPrice(basePrice: number, discountRate: number): number {
 
 export default function MemberDashboard() {
   const navigate = useNavigate();
-  const [member, setMember] = useState<Member | null>(null);
-  const [bookings, setBookings] = useState<Booking[]>([]);
-  const [saunas, setSaunas] = useState<Sauna[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const current = getCurrentMember();
-    if (current) {
-      setMember(current);
-      setBookings(getMemberBookings(current.id));
-      setSaunas(getSaunas());
-    }
-    setLoading(false);
-  }, []);
+  const [member] = useState<Member | null>(() => getCurrentMember());
+  const [bookings] = useState<Booking[]>(() =>
+    member ? getMemberBookings(member.id) : []
+  );
+  const [saunas] = useState<Sauna[]>(() => getSaunas());
+  const [loading] = useState(false);
 
   const handleLogout = () => {
     clearCurrentMember();

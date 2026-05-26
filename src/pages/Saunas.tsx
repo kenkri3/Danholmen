@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
   Pencil,
-  Copy,
   Check,
   MapPin,
   Users,

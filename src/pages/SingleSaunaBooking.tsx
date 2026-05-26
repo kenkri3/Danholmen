@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -30,7 +30,6 @@ import {
   getBookingsBySaunaAndDate,
   getDiscountByCode,
   saveBooking,
-  getCurrentMember,
   memberLogin,
   deleteBooking,
   getBookingById,
@@ -140,7 +139,6 @@ function generateTimeSlots(
     const slotBookings = bookings.filter(
       (b) => b.startTime === time && b.status !== "cancelled"
     );
-    const hasPrivateBooking = slotBookings.some((b) => b.type === "private");
     const fellesBookings = slotBookings.filter((b) => b.type === "felles");
     const totalFellesParticipants = fellesBookings.reduce(
       (sum, b) => sum + b.participantCount, 0
@@ -179,13 +177,6 @@ function generateTimeSlots(
 
 function generateBookingId(): string {
   return `booking_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`;
-}
-
-function formatPriceLabel(type: BookingType, price: number, sauna?: { capacity: number }): string {
-  if (type === "private") {
-    return `${price} kr`;
-  }
-  return `${price} kr/person`;
 }
 
 // ------------------------------------------------------------------
@@ -382,7 +373,6 @@ export default function SingleSaunaBooking() {
   const priceAfterCode = Math.max(0, priceAfterMemberDiscount - discountApplied);
 
   // Vel member geography check (simplified - always allow for now)
-  const canUseVelDiscount = isVelMember;
   const finalPrice = isVelMember && bookingType === "felles" ? 0 : priceAfterCode;
 
   // ------------------------------------------------------------------
@@ -489,7 +479,7 @@ export default function SingleSaunaBooking() {
     setPendingBookingId(null);
     setPaymentDeadline(null);
     setPaymentExpired(false);
-  }, []);
+  }, [sauna]);
 
   const handlePaymentExpired = useCallback(() => {
     if (pendingBookingId) {

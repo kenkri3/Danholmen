@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
@@ -570,11 +570,11 @@ export default function Discounts() {
     }
   };
 
-  const handleToggleStatus = (discount: DiscountCode) => {
+  const handleToggleStatus = useCallback((discount: DiscountCode) => {
     const updated = { ...discount, isActive: !discount.isActive };
     saveDiscount(updated);
     refresh();
-  };
+  }, []);
 
   const handleCopyCode = async (code: string) => {
     try {
@@ -774,7 +774,7 @@ export default function Discounts() {
         ),
       },
     ],
-    [copiedCode]
+    [copiedCode, handleToggleStatus]
   );
 
   return (

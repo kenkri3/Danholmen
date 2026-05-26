@@ -41,12 +41,7 @@ export function Navbar({ mobileOpen, setMobileOpen }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
-  const [admin, setAdmin] = useState<AdminUser | null>(null);
-
-  useEffect(() => {
-    const current = getCurrentAdmin();
-    if (current) setAdmin(current);
-  }, []);
+  const [admin] = useState<AdminUser | null>(() => getCurrentAdmin());
 
   useEffect(() => {
     setMobileOpen(false);

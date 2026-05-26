@@ -1,6 +1,6 @@
 // Stripe configuration
 // Replace with your real keys from https://dashboard.stripe.com
-export const STRIPE_PUBLISHABLE_KEY = "pk_test_YOUR_KEY_HERE"; // TODO: Replace with real key
+export const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_test_YOUR_KEY_HERE";
 
 // Check if Stripe is properly configured
 export const isStripeConfigured = (): boolean => {
@@ -13,8 +13,8 @@ export const isStripeConfigured = (): boolean => {
 // Price IDs - Create these in Stripe Dashboard → Products → Add product
 // Each product needs a Price with recurring or one-time billing
 export const STRIPE_PRICES = {
-  private: "price_private_placeholder", // 500 kr one-time
-  felles: "price_felles_placeholder", // 179 kr one-time
+  private: import.meta.env.VITE_STRIPE_PRICE_PRIVATE || "price_private_placeholder", // 500 kr one-time
+  felles: import.meta.env.VITE_STRIPE_PRICE_FELLES || "price_felles_placeholder", // 179 kr one-time
 } as const;
 
 // Your domain for redirects
