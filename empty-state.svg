@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <rect width="400" height="300" rx="16" fill="#F5F1EB"/>
+  <!-- Sauna outline -->
+  <path d="M120 220V140L200 100L280 140V220H120Z" stroke="#DDD6CC" stroke-width="3" fill="#EDE7DE"/>
+  <!-- Door -->
+  <rect x="175" y="160" width="50" height="60" rx="4" stroke="#DDD6CC" stroke-width="2" fill="#F5F1EB"/>
+  <!-- Window -->
+  <rect x="140" y="145" width="24" height="24" rx="2" stroke="#DDD6CC" stroke-width="2" fill="#F5F1EB"/>
+  <rect x="236" y="145" width="24" height="24" rx="2" stroke="#DDD6CC" stroke-width="2" fill="#F5F1EB"/>
+  <!-- Steam lines -->
+  <path d="M185 120C185 110 195 110 195 100" stroke="#2A9DB3" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M200 125C200 115 210 115 210 105" stroke="#2A9DB3" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <path d="M215 120C215 110 225 110 225 100" stroke="#2A9DB3" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  <!-- Flame accent -->
+  <path d="M200 180C200 175 196 175 196 170C196 166 200 162 200 158C200 162 204 166 204 170C204 175 200 175 200 180Z" fill="#D4863C" opacity="0.6"/>
+  <!-- Dots decoration -->
+  <circle cx="100" cy="240" r="3" fill="#DDD6CC"/>
+  <circle cx="300" cy="240" r="3" fill="#DDD6CC"/>
+  <circle cx="110" cy="250" r="2" fill="#DDD6CC"/>
+  <circle cx="290" cy="250" r="2" fill="#DDD6CC"/>
+</svg>
