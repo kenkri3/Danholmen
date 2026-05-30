@@ -29,7 +29,6 @@ export const PAYEE_TEST_BASE_URL = "https://api.externalintegration.payex.com/ps
  * Bruk test-URL i utvikling og produksjon-URL i live-miljø.
  */
 export function getBaseUrl(): string {
-  // TODO: Bytt til PAYEE_BASE_URL når du går live
   return import.meta.env.PROD
     ? PAYEE_BASE_URL
     : PAYEE_TEST_BASE_URL;

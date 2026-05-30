@@ -41,8 +41,6 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 /**
- * TODO: Bytt ut med din faktiske API-nøkkel fra Payee.no / Swedbank Pay.
- *
  * Slik får du API-nøkkel:
  * 1. Logg inn på https://payee.no/
  * 2. Gå til "API-nøkler" eller "Integrasjoner"
@@ -54,17 +52,15 @@ import {
  */
 const PAYEE_API_KEY: string =
   (import.meta.env.VITE_PAYEE_API_KEY as string | undefined) ??
-  "TODO_SETT_INN_DIN_PAYEE_API_KEY";
+  "";
 
 /**
- * TODO: Bytt ut med din faktiske Merchant ID fra Payee.no.
- *
  * Merchant ID (også kalt "Payee ID") identifiserer din bedrift
  * hos Swedbank Pay. Du finner den i Payee-portalen under bedriftsinnstillinger.
  */
 const PAYEE_MERCHANT_ID: string =
   (import.meta.env.VITE_PAYEE_MERCHANT_ID as string | undefined) ??
-  "TODO_SETT_INN_DIN_PAYEE_MERCHANT_ID";
+  "";
 
 /**
  * Bygger standard headers for alle API-kall mot Swedbank Pay.
@@ -116,23 +112,17 @@ export class PayeeApiError extends Error {
  * Kaster en feil hvis noe mangler.
  */
 function validerKonfigurasjon(): void {
-  if (
-    !PAYEE_API_KEY ||
-    PAYEE_API_KEY === "TODO_SETT_INN_DIN_PAYEE_API_KEY"
-  ) {
+  if (!PAYEE_API_KEY) {
     throw new Error(
       "Payee API-nøkkel er ikke konfigurert. " +
-        "Sett PAYEE_API_KEY miljøvariabel eller oppdater konstanten i payeeApi.ts"
+        "Sett VITE_PAYEE_API_KEY miljøvariabel."
     );
   }
 
-  if (
-    !PAYEE_MERCHANT_ID ||
-    PAYEE_MERCHANT_ID === "TODO_SETT_INN_DIN_PAYEE_MERCHANT_ID"
-  ) {
+  if (!PAYEE_MERCHANT_ID) {
     throw new Error(
       "Payee Merchant ID er ikke konfigurert. " +
-        "Sett PAYEE_MERCHANT_ID miljøvariabel eller oppdater konstanten i payeeApi.ts"
+        "Sett VITE_PAYEE_MERCHANT_ID miljøvariabel."
     );
   }
 }
@@ -292,7 +282,6 @@ export async function createPaymentOrder(
     },
   };
 
-  // TODO: Her kan du logge request for debugging
   // console.log("[Payee] Oppretter betalingsordre:", JSON.stringify(requestBody, null, 2));
 
   // Send forespørsel til Swedbank Pay
@@ -567,7 +556,7 @@ export interface CreateRecurringPaymentParams {
  *
  * // Hent token fra status (etter at betaling er fullført):
  * const status = await getPaymentStatus({ paymentOrderId: forsteBetaling.paymentorder.id });
- * const token = status.paymentorder.recurrenceToken; // TODO: Sjekk faktig felt-navn i API-dokumentasjon
+ * const token = status.paymentorder.recurrenceToken;
  *
  * // Månedlig trekk:
  * const trekk = await createRecurringPayment({
@@ -616,7 +605,6 @@ export async function createRecurringPayment(
     },
   };
 
-  // TODO: Her kan du logge request for debugging
   // console.log("[Payee] Oppretter gjentakende betaling:", JSON.stringify(requestBody, null, 2));
 
   return apiCall<PaymentOrderResponse>("recurringpayments", {
