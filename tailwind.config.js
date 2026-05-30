@@ -1,9 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+module.exports = {
+  darkMode: ["class"],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -21,8 +19,8 @@ export default {
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -40,13 +38,100 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
+        },
+        "deep-teal": "#0B3D4C",
+        teal: "#1A6B7C",
+        "teal-light": "#2A9DB3",
+        "brand-pink": "#EE4C84",
+        "pink-light": "#F0709E",
+        "pink-dark": "#D93A6E",
+        "off-white": "#F5F1EB",
+        cream: "#EDE7DE",
+        "text-primary": "#1A1A2E",
+        "text-secondary": "#5A5A6E",
+        "text-muted": "#8A8A9E",
+        success: "#3A9E6F",
+        warning: "#EE4C84",
+        "private-booking": "#EE4C84",
+        "felles-booking": "#1A6B7C",
+        "vel-member": "#7C3AED",
+        "stripe-blue": "#635BFF",
+      },
+      fontFamily: {
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        heading: ['"Inter"', 'system-ui', 'sans-serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       borderRadius: {
+        xl: "calc(var(--radius) + 4px)",
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        xs: "calc(var(--radius) - 6px)",
+      },
+      boxShadow: {
+        xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
+        "card-hover": "0 4px 20px rgba(0, 0, 0, 0.1)",
+        "amber-btn": "0 2px 8px rgba(212, 134, 60, 0.3)",
+        "amber-btn-hover": "0 4px 16px rgba(212, 134, 60, 0.4)",
+        modal: "0 20px 60px rgba(0, 0, 0, 0.2)",
+        "input-focus": "0 0 0 3px rgba(26, 107, 124, 0.1)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "20%": { transform: "translateX(-4px)" },
+          "40%": { transform: "translateX(4px)" },
+          "60%": { transform: "translateX(-4px)" },
+          "80%": { transform: "translateX(4px)" },
+        },
+        "slide-in-right": {
+          from: { transform: "translateX(120%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slide-up": {
+          from: { transform: "translateY(10px)", opacity: "0" },
+          to: { transform: "translateY(0)", opacity: "1" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
+        shake: "shake 0.4s ease-in-out",
+        "slide-in-right": "slide-in-right 0.4s ease",
+        "fade-in": "fade-in 0.4s ease",
+        "slide-up": "slide-up 0.3s ease",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 }
