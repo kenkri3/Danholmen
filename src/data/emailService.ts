@@ -1,11 +1,13 @@
 // ============================================================
-// E-posttjeneste for Danholmen Badstuer — FormSubmit.co
+// E-posttjeneste for Danholmen Badstuer
 // ============================================================
 // Sender ekte e-postbekreftelser ved booking og medlemskjøp.
-// Bruker FormSubmit.co (gratis, ingen API-nøkkel nødvendig).
+// Prioriterer EmailJS hvis konfigurert, ellers FormSubmit.co.
 //
-// Hvis FormSubmit.co feiler, brukes mailto-lenke som fallback.
+// Hvis begge feiler, brukes mailto-lenke som fallback.
 // ============================================================
+
+import emailjs from "@emailjs/browser";
 
 const FORM_SUBMIT_URL = "https://formsubmit.co/ajax/booking@danholmen.no";
 const FROM_EMAIL = "booking@danholmen.no";
@@ -30,7 +32,40 @@ export interface MembershipEmailData {
   bookingId: string;
 }
 
-// --- FormSubmit.co: Ekte e-postutsending ---
+// --- EmailJS: Prioritert e-postutsending ---
+
+const EMAILJS_CONFIG = {
+  publicKey: (import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string) || "",
+  serviceId: (import.meta.env.VITE_EMAILJS_SERVICE_ID as string) || "",
+  bookingTemplateId:
+    (import.meta.env.VITE_EMAILJS_BOOKING_TEMPLATE_ID as string) || "",
+  membershipTemplateId:
+    (import.meta.env.VITE_EMAILJS_MEMBERSHIP_TEMPLATE_ID as string) || "",
+};
+
+async function sendViaEmailJS(
+  templateId: string,
+  templateParams: Record<string, any>
+): Promise<boolean> {
+  if (!EMAILJS_CONFIG.publicKey || !EMAILJS_CONFIG.serviceId || !templateId) {
+    return false;
+  }
+
+  try {
+    const response = await emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      templateId,
+      templateParams,
+      EMAILJS_CONFIG.publicKey
+    );
+    return response.status === 200;
+  } catch (error) {
+    console.error("[EmailJS] Feil ved sending:", error);
+    return false;
+  }
+}
+
+// --- FormSubmit.co: Fallback e-postutsending ---
 
 async function sendViaFormSubmit(
   toEmail: string,
@@ -65,6 +100,24 @@ async function sendViaFormSubmit(
 export async function sendBookingConfirmation(
   data: BookingEmailData
 ): Promise<boolean> {
+  // 1. Prøv EmailJS først
+  const emailJsSuccess = await sendViaEmailJS(EMAILJS_CONFIG.bookingTemplateId, {
+    to_name: data.customerName,
+    to_email: data.customerEmail,
+    sauna_name: data.saunaName,
+    booking_date: data.bookingDate,
+    booking_time: data.bookingTime,
+    booking_type: data.bookingType,
+    total_price: `${data.totalPrice} kr`,
+    booking_id: data.bookingId,
+  });
+
+  if (emailJsSuccess) {
+    console.log("[E-post] Bookingbekreftelse sendt via EmailJS");
+    return true;
+  }
+
+  // 2. Fallback til FormSubmit.co
   const subject = `Bookingbekreftelse — ${data.saunaName}`;
 
   const textBody =
@@ -135,6 +188,25 @@ export async function sendBookingConfirmation(
 export async function sendMembershipConfirmation(
   data: MembershipEmailData
 ): Promise<boolean> {
+  // 1. Prøv EmailJS først
+  const emailJsSuccess = await sendViaEmailJS(
+    EMAILJS_CONFIG.membershipTemplateId,
+    {
+      to_name: data.customerName,
+      to_email: data.customerEmail,
+      membership_type: data.membershipType,
+      price: `${data.price} kr/mnd`,
+      start_date: data.startDate,
+      membership_id: data.bookingId,
+    }
+  );
+
+  if (emailJsSuccess) {
+    console.log("[E-post] Medlemskapsbekreftelse sendt via EmailJS");
+    return true;
+  }
+
+  // 2. Fallback til FormSubmit.co
   const subject = "Velkommen som Danholmen Medlem!";
 
   const textBody =

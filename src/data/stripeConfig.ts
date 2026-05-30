@@ -1,6 +1,8 @@
 // Stripe configuration
 // Replace with your real keys from https://dashboard.stripe.com
-export const STRIPE_PUBLISHABLE_KEY = "pk_test_YOUR_KEY_HERE"; // TODO: Replace with real key
+export const STRIPE_PUBLISHABLE_KEY =
+  (import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string) ||
+  "pk_test_YOUR_KEY_HERE";
 
 // Check if Stripe is properly configured
 export const isStripeConfigured = (): boolean => {
